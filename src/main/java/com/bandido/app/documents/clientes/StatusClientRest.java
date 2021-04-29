@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.bandido.app.documents.dto.Status;
 
 
-@FeignClient(name = "status-service/app/status")
+@FeignClient(name = "status-service")
 public interface StatusClientRest {
 	
 	@GetMapping("/listar/{id}")
