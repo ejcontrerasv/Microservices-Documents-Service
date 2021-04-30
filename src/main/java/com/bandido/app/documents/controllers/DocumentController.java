@@ -52,6 +52,9 @@ public class DocumentController {
 	@Qualifier("serviceFeign")
 	private IDocumentService service;
 	
+	@Autowired
+	EventSenderMessage eventSenderMessage;
+	
 	@HystrixCommand(fallbackMethod = "registrarFallBack", commandProperties = {
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "20000"),
 			@HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
@@ -64,6 +67,7 @@ public class DocumentController {
 				.path("/{id}")
 				.buildAndExpand(doc.getId())
 				.toUri();
+		eventSenderMessage.sendMessage(doc);
 		return ResponseEntity.created(location).build();
 	}
 	
